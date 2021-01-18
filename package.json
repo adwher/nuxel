@@ -1,0 +1,40 @@
+{
+  "name": "nuxel",
+  "version": "0.1.0",
+  "description": "State managment for Vue 3",
+  "main": "dist/nuxel.umd.js",
+  "module": "dist/nuxel.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "declarate": "tsc --emitDeclarationOnly",
+    "dev": "rollup -c -w",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adwher/nuxel.git"
+  },
+  "keywords": [
+    "vue",
+    "store",
+    "managment"
+  ],
+  "author": "Andres Celis (adwher)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adwher/nuxel/issues"
+  },
+  "homepage": "https://github.com/adwher/nuxel#readme",
+  "dependencies": {
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@jest/globals": "^26.6.2",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "esbuild": "^0.8.32",
+    "jest": "^26.6.3",
+    "rollup": "^2.36.2",
+    "rollup-plugin-esbuild": "^2.6.1",
+    "typescript": "^4.1.3"
+  }
+}
