@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    name: Run all test
+    name: Ran test
     runs-on: windows-latest
     steps:
       - name: Checkout

@@ -15,7 +15,7 @@ export type UseStore<S, A extends Actions<S>, G extends Getters<S>> = {
     state: Readonly<S>,
     actions?: UseActions<S, A>,
     getters?: UseGetters<S, G>,
-    suscribe: Suscription<S, A>,
+    suscribe: Suscription<S, A, G>,
     reset: () => void
 }
 

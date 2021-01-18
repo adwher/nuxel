@@ -6,6 +6,6 @@ import { Suscribe } from "./suscriptions"
 
 export interface Metadata<S extends {}, A extends Actions<S>, G extends Getters<S>> {
     history: State<S>[],
-    suscriptions: Set<Suscribe<S, A>>,
+    suscriptions: Set<Suscribe<S, A, G>>,
     plugins: Set<Plugin<S, A, G>>
 }

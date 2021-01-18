@@ -16,13 +16,13 @@ export function createStore<S extends {}, A extends Actions<S>, G extends Getter
     const initialState = { ...store.state }
     const state = reactive(store.state)
 
-    const actions = convertActions<S, A>(state, metadata, store.actions)
+    const actions = convertActions<S, A, G>(state, metadata, store.actions)
     const getters = convertGetters(state, store.getters)
     
     return function (): UseStore<S, A, G> {
         const stateReadOnly = readonly(state) as Readonly<S>
 
-        function suscribe(callback: Suscribe<S, A>) {
+        function suscribe(callback: Suscribe<S, A, G>) {
             metadata.suscriptions.add(callback)
             return () => metadata.suscriptions.delete(callback)
         }
