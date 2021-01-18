@@ -1,31 +1,64 @@
 import esbuild from "rollup-plugin-esbuild"
 import resolve from "@rollup/plugin-node-resolve"
+import inject from "rollup-plugin-inject-process-env"
 
-export default {
-    input: "src/main.ts",
-
-    output: [
-        {
-            name: "umd",
-            file: "dist/nuxel.umd.js",
-            format: "umd",
-            globals: ["vue"]
-        },
-
-        {
+export default [
+    {
+        input: "src/main.ts",
+    
+        output: {
             name: "esm",
-            file: "dist/nuxel.esm.js",
+            file: "./dist/nuxel.esm.js",
             format: "esm",
         },
-    ],
+    
+        plugins: [
+            esbuild({
+                minify: true,
+                target: "es2017",
+            }),
+    
+            resolve()
+        ]
+    },
 
-    plugins: [
-        esbuild({
-            minify: false,
-            target: "es2015",
-            sourceMap: true
-        }),
+    {
+        input: "src/main.ts",
+    
+        output: {
+            name: "cjs",
+            file: "./dist/nuxel.cjs.js",
+            format: "cjs",
+        },
+    
+        plugins: [
+            esbuild({
+                minify: true,
+                target: "es2015",
+            }),
+    
+            resolve()
+        ]
+    },
 
-        resolve()
-    ]
-}
+    {
+        input: "src/main.ts",
+    
+        output: {
+            name: "nuxel",
+            file: "./dist/nuxel.iife.js",
+            format: "iife"
+        },
+    
+        plugins: [
+            resolve({ browser: true  }),
+
+            esbuild({
+                minify: true,
+                target: "es2015",
+            }),
+
+            inject({ NODE_ENV: "production" })
+        ]
+    }
+]

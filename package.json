@@ -1,9 +1,11 @@
 {
   "name": "nuxel",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "State managment for Vue 3",
-  "main": "dist/nuxel.umd.js",
+  "main": "dist/nuxel.cjs.js",
   "module": "dist/nuxel.esm.js",
+  "unpkg": "dist/nuxel.iife.js",
+  "jsdelivr": "dist/nuxel.iife.js",
   "types": "dist/types/main.ts",
   "scripts": {
     "build": "rollup -c",
@@ -36,6 +38,7 @@
     "jest": "^26.6.3",
     "rollup": "^2.36.2",
     "rollup-plugin-esbuild": "^2.6.1",
+    "rollup-plugin-inject-process-env": "^1.3.1",
     "typescript": "^4.1.3"
   }
 }
