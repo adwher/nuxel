@@ -1,4 +1,3 @@
-import { Ref } from "vue"
 import { Getters } from "./getters"
 import { Metadata } from "./metadata"
 import { State } from "./state"
@@ -10,9 +9,9 @@ export type Actions<S> = {
     [name: string]: Action<S, unknown[]>
 }
 
-export function convertActions<S, A extends Actions<S>, G extends Getters<S>>(state: State<S>, meta: Metadata<S, A, G>, actions: A) {
+export function convertActions<S extends {}, A extends Actions<S>, G extends Getters<S>>(state: State<S>, meta: Metadata<S, A, G>, actions: A) {
     function changeState(type: string, callback: Action<S, unknown[]>, ...args: unknown[]) {
-        meta.history.push(Object.assign({}, state)) // snapshot
+        meta.history.add(Object.assign({}, state)) // take snapshot
         callback(state, ...args)
 
         meta.suscriptions.forEach(sub => sub({ type, metadata: meta })) // suscriptions

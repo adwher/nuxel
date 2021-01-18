@@ -7,8 +7,8 @@ export type UseActions<S, A> = {
     [K in keyof A]: (...args: A[K] extends Action<S, infer T> ? T : unknown[]) => void
 }
 
-export type UseGetters<S, G> = {
-    [K in keyof G]: G[K] extends Getter<S, infer T> ? T : unknown
+export type UseGetters<S extends {}, G extends Getters<S>> = {
+    [K in keyof G & string]: G[K] extends Getter<S, infer T> ? T : unknown
 }
 
 export type UseStore<S, A extends Actions<S>, G extends Getters<S>> = {

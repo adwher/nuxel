@@ -8,7 +8,7 @@ import { Suscribe } from "./suscriptions"
 
 export function createStore<S extends {}, A extends Actions<S>, G extends Getters<S>>(store: Store<S, A, G>) {
     const metadata = reactive<Metadata<S, A, G>>({
-        history: [],
+        history: new Set(),
         suscriptions: new Set(),
         plugins: new Set(store.plugins ?? []),
     })
@@ -28,7 +28,7 @@ export function createStore<S extends {}, A extends Actions<S>, G extends Getter
         }
 
         function reset() {
-            metadata.history = []
+            metadata.history.clear()
             Object.assign(state, initialState)
         }
 

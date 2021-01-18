@@ -1,3 +1,3 @@
-import { Ref, UnwrapRef } from "vue"
+import { UnwrapRef } from "vue"
 
-export type State<S> = Ref<S> | UnwrapRef<S> | Object
+export type State<S> = S | UnwrapRef<S>
