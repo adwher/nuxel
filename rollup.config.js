@@ -4,7 +4,7 @@ import inject from "rollup-plugin-inject-process-env"
 
 export default [
     {
-        input: "src/main.ts",
+        input: "src/nuxel.ts",
     
         output: {
             name: "esm",
@@ -23,7 +23,7 @@ export default [
     },
 
     {
-        input: "src/main.ts",
+        input: "src/nuxel.ts",
     
         output: {
             name: "cjs",
@@ -42,7 +42,7 @@ export default [
     },
 
     {
-        input: "src/main.ts",
+        input: "src/nuxel.ts",
     
         output: {
             name: "nuxel",

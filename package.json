@@ -1,12 +1,12 @@
 {
   "name": "nuxel",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "State managment for Vue 3",
   "main": "dist/nuxel.cjs.js",
   "module": "dist/nuxel.esm.js",
   "unpkg": "dist/nuxel.iife.js",
   "jsdelivr": "dist/nuxel.iife.js",
-  "types": "dist/types/main.ts",
+  "types": "dist/types/nuxel.d.ts",
   "scripts": {
     "build": "rollup -c",
     "declarate": "tsc --emitDeclarationOnly",

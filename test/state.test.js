@@ -13,4 +13,9 @@ describe("State", function() {
     test("got the initial state", function () {
         expect(state.counter).toBe(0)
     })
+
+    test("try to mutate the state", function () {
+        state.counter = 2
+        expect(state.counter).toBe(0)
+    })
 })
