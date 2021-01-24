@@ -11,7 +11,7 @@
     "build": "rollup -c",
     "declarate": "tsc --emitDeclarationOnly",
     "dev": "rollup -c -w",
-    "test": "jest"
+    "test": "jest && tsc --emitDeclarationOnly"
   },
   "repository": {
     "type": "git",

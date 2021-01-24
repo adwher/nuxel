@@ -1,7 +1,7 @@
 import { Store } from "../store/store"
 import { Plugin } from "./definePlugins"
 
-export function createLogger<S>(): Plugin<S> {
+export function createLogger<S, A, G>(): Plugin<S, A, G> {
     function obtainTime() {
         const date = new Date()
 
