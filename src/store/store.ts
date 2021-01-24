@@ -21,6 +21,7 @@ export type Store<S, A, G> = {
     getters: StoreGetters<S, G>
     suscribe: (suscription: Suscription<S>) => Unsuscribe
     reset: () => void
+    rollback: () => void
 }
 
 export { Options, Metadata, defineStore } from "./defineStore"

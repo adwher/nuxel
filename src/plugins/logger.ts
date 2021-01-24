@@ -13,6 +13,6 @@ export function createLogger<S>(): Plugin<S> {
     }
 
     return function (store: Store<S, {}, {}>) {
-        store.suscribe(trigger => console.log(`[nuxel - ${obtainTime()}] ${trigger.type}`))
+        store.suscribe(trigger => console.log(`[logger ${obtainTime()}] ${trigger.name}`))
     }
 }

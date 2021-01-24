@@ -1,29 +1,27 @@
 import { Action } from "./actions"
-import { Metadata, State } from "../store/store"
+import { Metadata } from "../store/store"
 
 export function defineActions<S, A>(state: S, actions: A, metadata: Metadata<S>) {
     async function execute<P extends any[]>(name: string, action: Action<S, P>, ...args: P) {
         try {
             metadata.history.add({ ...state })
-
             await action(state, ...args)
 
             // suscriptions
 
-            const trigger = {
-                name,
-                metadata
-            }
-
             metadata.suscriptions.forEach(suscription => {
-                const old = metadata.history[metadata.history.size - 1]
+                const trigger = {
+                    name,
+                    metadata
+                }
 
+                const old = metadata.history[metadata.history.size - 1]
                 suscription(trigger, [old, state])
             })
         }
 
-        catch {
-            // TODO
+        catch(err) {
+            console.error(`[nuxel] '${name}' action produce error: ${err}`)
         }
     }
 

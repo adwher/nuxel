@@ -6,11 +6,11 @@ import { defineGetters, Getters } from "../getters/getters"
 import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
 import { Plugin } from "../plugins/definePlugins"
 
-export type Options<S extends {}, A, G = {}> = {
+export type Options<S extends object, A, G = {}> = {
     state: S
     actions?: Actions<S> | A
     getters?: Getters<S> | G
-    plugins?: Plugin<S>[]
+    plugins?: Plugin<S, A, G>[]
 }
 
 export type Metadata<S> = {
@@ -19,27 +19,44 @@ export type Metadata<S> = {
 }
 
 export function defineStore<S extends object, A, G>(options: Options<S, A, G>): Store<S, A, G> {
-    const initialState = { ...options.state }
-    const state = reactive(options.state)
-
-    const metadata: Metadata<State<S>> = reactive({
-        history: new Set(),
-        suscriptions: new Set()
-    })
-
-    const actions = defineActions(state, options.actions || {}, metadata)
-    const getters = defineGetters(state, options.getters || {})
-
-    function reset() {
-        Object.assign(state, initialState)
-        metadata.history.clear()
+    if (options.state === undefined) {
+        throw "[nuxel] Initial state was undefined"
     }
 
-    return {
-        state: readonly(state) as StoreState<S>,
-        actions,
-        getters,
-        suscribe: (suscription) => defineSuscription(metadata, suscription),
-        reset: reset
+    else {
+        const initialState = options.state
+        const state = reactive({ ...initialState })
+
+        const metadata: Metadata<State<S>> = reactive({
+            history: new Set(),
+            suscriptions: new Set()
+        })
+
+        const actions = defineActions(state, options.actions || {}, metadata)
+        const getters = defineGetters(state, options.getters || {})
+
+        const reset = function () {
+            Object.assign(state, initialState)
+            metadata.history.clear()
+        }
+
+        const rollback = function () {
+            const oldState = metadata.history.size > 0
+                ? metadata.history[metadata.history.size - 1]
+                : initialState
+
+            Object.assign(state, oldState)
+        }
+
+        const suscribe = (suscription) => defineSuscription(metadata, suscription)
+
+        return {
+            state: readonly(state) as StoreState<S>,
+            actions,
+            getters,
+            suscribe,
+            reset,
+            rollback
+        }
     }
 }

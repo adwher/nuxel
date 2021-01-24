@@ -16,14 +16,20 @@ describe("Suscriptions", function() {
     
     const { state, actions, suscribe } = useStore()
 
-    test("suscribe to store", function (done) {
-        suscribe(function (trigger) {
-            expect(state.counter).toBe(1)
-            expect(trigger.type).toBe("increment")
+    test("suscribe to store", function (done) {     
+        suscribe(trigger => {
+            try {
+                expect(trigger.name).toBe("increment")
+                expect(state.counter).toBe(1)
 
-            done()
+                done()
+            }
+
+            catch(err) {
+                done(err)
+            }
         })
-
+        
         actions.increment()
     })
 })
