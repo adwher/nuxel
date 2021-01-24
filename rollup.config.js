@@ -2,6 +2,9 @@ import esbuild from "rollup-plugin-esbuild"
 import resolve from "@rollup/plugin-node-resolve"
 import inject from "rollup-plugin-inject-process-env"
 
+const EXTERNAL_DEPENDENCIES = ["vue", "@vue/reactivity"]
+const IS_PRODUCTION = !process.env.ROLLUP_WATCH
+
 export default [
     {
         input: "src/nuxel.ts",
@@ -11,14 +14,14 @@ export default [
             file: "./dist/nuxel.esm.js",
             format: "esm",
         },
+
+        external: EXTERNAL_DEPENDENCIES,
     
         plugins: [
             esbuild({
-                minify: true,
-                target: "es2017",
-            }),
-    
-            resolve()
+                minify: IS_PRODUCTION,
+                target: "es2015",
+            })
         ]
     },
 
@@ -30,14 +33,14 @@ export default [
             file: "./dist/nuxel.cjs.js",
             format: "cjs",
         },
+
+        external: EXTERNAL_DEPENDENCIES,
     
         plugins: [
             esbuild({
-                minify: true,
+                minify: IS_PRODUCTION,
                 target: "es2015",
             }),
-    
-            resolve()
         ]
     },
 
@@ -51,10 +54,10 @@ export default [
         },
     
         plugins: [
-            resolve({ browser: true  }),
+            resolve({ browser: true }),
 
             esbuild({
-                minify: true,
+                minify: IS_PRODUCTION,
                 target: "es2015",
             }),
 
