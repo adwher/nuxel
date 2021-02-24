@@ -7,6 +7,7 @@ import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
 import { Plugin } from "../plugins/definePlugins"
 
 export type Options<S extends object, A, G = {}> = {
+    name: string
     state: S
     actions?: Actions<S> | A
     getters?: Getters<S> | G
@@ -51,6 +52,7 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
         const suscribe = (suscription) => defineSuscription(metadata, suscription)
 
         return {
+            name: options.name,
             state: readonly(state) as StoreState<S>,
             actions,
             getters,

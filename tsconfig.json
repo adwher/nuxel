@@ -8,7 +8,9 @@
         "declaration": true,
         "inlineSourceMap": true,
         "declarationDir": "./dist/types",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "allowJs": true
     },
     "include": ["src/**/*.ts", "src/**/*.js"]
 }

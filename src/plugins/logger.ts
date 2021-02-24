@@ -12,7 +12,7 @@ export function createLogger<S, A, G>(): Plugin<S, A, G> {
         return `${hours}:${minutes}:${seconds}`
     }
 
-    return function (store: Store<S, {}, {}>) {
-        store.suscribe(trigger => console.log(`[logger ${obtainTime()}] ${trigger.name}`))
+    return function (store: Store<S, unknown, unknown>) {
+        store.suscribe(trigger => console.log(`%b[${store.name} ${obtainTime()}] %c${trigger.name}`, "font-weight: bold"))
     }
 }

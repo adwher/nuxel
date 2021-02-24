@@ -10,7 +10,6 @@ export default [
         input: "src/nuxel.ts",
     
         output: {
-            name: "esm",
             file: "./dist/nuxel.esm.js",
             format: "esm",
         },
@@ -29,7 +28,6 @@ export default [
         input: "src/nuxel.ts",
     
         output: {
-            name: "cjs",
             file: "./dist/nuxel.cjs.js",
             format: "cjs",
         },

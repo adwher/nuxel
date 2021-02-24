@@ -16,12 +16,15 @@ export type StoreGetters<S, G> = {
 export type StoreState<S> = { readonly [K in keyof S & string]: S[K] } | Readonly<S>
 
 export type Store<S, A, G> = {
-    state: StoreState<S>,
+    name: string
+
+    state: StoreState<S>
     actions: StoreActions<S, A>
     getters: StoreGetters<S, G>
-    suscribe: (suscription: Suscription<S>) => Unsuscribe
-    reset: () => void
-    rollback: () => void
+
+    suscribe(suscription: Suscription<S>): Unsuscribe
+    reset(): void
+    rollback(): void
 }
 
 export { Options, Metadata, defineStore } from "./defineStore"
