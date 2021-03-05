@@ -17,9 +17,9 @@ describe("Suscriptions", function() {
     const { state, actions, suscribe } = useStore()
 
     test("suscribe to store", function (done) {     
-        suscribe(trigger => {
+        suscribe(context => {
             try {
-                expect(trigger.name).toBe("increment")
+                expect(context.trigger).toBe("increment")
                 expect(state.counter).toBe(1)
 
                 done()
