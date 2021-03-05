@@ -16,7 +16,7 @@ export type StoreGetters<S, G> = {
 export type StoreState<S> = { readonly [K in keyof S & string]: S[K] } | Readonly<S>
 
 export type Store<S, A, G> = {
-    name: string
+    id: string
 
     state: StoreState<S>
     actions: StoreActions<S, A>

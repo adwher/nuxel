@@ -1,11 +1,12 @@
 import { Metadata, State } from "../store/store"
 
-export type Trigger<S> = {
-    name: string
+export type SuscriptionContext<S> = {
+    trigger: string
     metadata: Metadata<S>
+    state: [old: State<S>, newest: State<S>]
 }
 
-export type Suscription<S> = (trigger: Trigger<S>, state: [old: State<S>, newest: State<S>]) => void
+export type Suscription<S> = (context: SuscriptionContext<S>) => void | Promise<void>
 
 export type Unsuscribe = () => boolean
 

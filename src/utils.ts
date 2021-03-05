@@ -11,10 +11,15 @@ export function createHashMark(data: object) {
     function toArrayNotation(data: object) {
         return Object
             .entries(data)
-            .map(([key, value]) => {
-                const isObject = typeof value === "object" && !Array.isArray(value)
-                return isObject ? [toArrayNotation(value)] : key
-            })
+            .reduce<string>(
+                function (text, [key, value]) {
+                    const isObject = typeof value === "object" && !Array.isArray(value)
+                    return text += isObject ? `${key}: { ${toArrayNotation(value)} }` : `${key} `
+                },
+
+                ""
+            )
+            .trimEnd()
     }
 
     return encryptData(toArrayNotation(data))
