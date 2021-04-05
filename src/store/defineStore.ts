@@ -4,14 +4,14 @@ import { State, Store, StoreState } from "./store"
 import { Actions, defineActions } from "../actions/actions"
 import { defineGetters, Getters } from "../getters/getters"
 import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
-import { Plugin } from "../plugins/definePlugins"
+import { Plugins } from "../plugins/definePlugins"
 
-export type Options<S extends object, A, G = {}> = {
+export type Options<S extends object, A, G> = {
     id: string
     state: S
-    actions?: Actions<S> | A
-    getters?: Getters<S> | G
-    plugins?: Plugin<S, A, G>[]
+    actions?: A | Actions<S>
+    getters?: G | Getters<S>
+    plugins?: Plugins<S>
 }
 
 export type Metadata<S> = {
