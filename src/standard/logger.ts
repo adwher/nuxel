@@ -1,4 +1,3 @@
-import { Store } from "../store/store"
 import { Plugin } from "../plugins/definePlugins"
 
 function formatNumber(value: number) {
@@ -20,8 +19,8 @@ function obtainTime() {
     return `${hours}:${minutes}:${seconds}`
 }
 
-export function createLogger<S, A, G>(): Plugin<S, A, G> {
-    return function (store: Store<S, unknown, unknown>) {
+export function createLogger<S>(): Plugin<S> {
+    return function (store) {
         store.suscribe(async context => {
             console.log(`[${store.id} ${obtainTime()}] %c${context.trigger}`, "font-weight: bold")
         })

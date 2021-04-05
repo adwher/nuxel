@@ -1,10 +1,10 @@
 import { reactive } from "vue"
-import { Store } from "../store/store"
+import { Plugin } from "../plugins/definePlugins"
 import { createHashMark, decryptData, encryptData } from "../utils"
 
-export function createPersistence<S, A, G>() {
-    return function (store: Store<S, A, G>) {
-        const key = `persisted/${store.id}`
+export function createPersistence<S>(): Plugin<S> {
+    return function (store) {
+        const key = `cached/${store.id}`
         const data = localStorage.getItem(key)
 
         if (typeof data === "string") {
