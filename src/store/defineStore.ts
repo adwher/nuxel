@@ -4,7 +4,7 @@ import { State, Store, StoreState } from "./store"
 import { Actions, defineActions } from "../actions/actions"
 import { defineGetters, Getters } from "../getters/getters"
 import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
-import { Plugins } from "../plugins/definePlugins"
+import { definePlugins, Plugins } from "../plugins/definePlugins"
 
 export type Options<S extends object, A, G> = {
     id: string
@@ -51,14 +51,21 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
 
         const suscribe = (suscription: Suscription<S>) => defineSuscription(metadata, suscription)
 
-        return {
+        const store = {
             id: options.id,
-            state: readonly(state) as StoreState<S>,
+            state: state,
             actions,
             getters,
             suscribe,
             reset,
             rollback
+        }
+
+        definePlugins(store, options.plugins)
+
+        return {
+            ...store,
+            state: readonly(state) as StoreState<S>
         }
     }
 }

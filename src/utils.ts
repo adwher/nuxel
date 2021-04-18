@@ -13,8 +13,7 @@ export function createHashMark(data: object) {
             .entries(data)
             .reduce<string>(
                 function (text, [key, value]) {
-                    const isObject = typeof value === "object" && !Array.isArray(value)
-                    return text += isObject ? `${key}: { ${toArrayNotation(value)} }` : `${key} `
+                    return text += `${key} `
                 },
 
                 ""
@@ -22,5 +21,5 @@ export function createHashMark(data: object) {
             .trimEnd()
     }
 
-    return encryptData(toArrayNotation(data))
+    return encryptData({ key: toArrayNotation(data) })
 }

@@ -1,19 +1,21 @@
-import { reactive } from "vue"
 import { Plugin } from "../plugins/definePlugins"
 import { createHashMark, decryptData, encryptData } from "../utils"
 
-export function createPersistence<S>(): Plugin<S> {
+export function createPersistence<S extends object>(): Plugin<S> {
     return function (store) {
         const key = `cached/${store.id}`
-        const data = localStorage.getItem(key)
+        const encrypted = localStorage.getItem(key)
 
-        if (typeof data === "string") {
-            const json = decryptData(data)
+        if (encrypted) {
+            const json = decryptData(encrypted)
 
             const cachedHash = createHashMark(json)
             const stateHash = createHashMark(store.state)
 
-            if (cachedHash === stateHash) store.state = reactive(json)
+            if (cachedHash === stateHash) {
+                Object.assign(store.state, json)
+            }
+
             else localStorage.removeItem(key)
         }
 

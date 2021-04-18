@@ -13,7 +13,7 @@ export type StoreGetters<S, G> = {
     [K in keyof G & string]: G[K] extends Getter<S, infer R> ? R : G[K]
 }
 
-export type StoreState<S> = { readonly [K in keyof S & string]: S[K] } | Readonly<S>
+export type StoreState<S> = { readonly [K in keyof S & string]: S[K] } | State<S>
 
 export type Store<S, A, G> = {
     id: string
