@@ -1,4 +1,4 @@
-import { computed, reactive } from "vue"
+import { computed, reactive } from "@vue/reactivity"
 import { Getter } from "./getters"
 import { State } from "../store/store"
 

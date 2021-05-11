@@ -1,8 +1,8 @@
 import esbuild from "rollup-plugin-esbuild"
 import resolve from "@rollup/plugin-node-resolve"
-import inject from "rollup-plugin-inject-process-env"
+import replace from "@rollup/plugin-replace"
 
-const EXTERNAL_DEPENDENCIES = ["vue", "@vue/reactivity"]
+const EXTERNAL_DEPENDENCIES = ["@vue/reactivity"]
 const IS_PRODUCTION = !process.env.ROLLUP_WATCH
 
 export default [
@@ -52,14 +52,20 @@ export default [
         },
     
         plugins: [
-            resolve({ browser: true }),
+            resolve({ browser: true, dedupe: EXTERNAL_DEPENDENCIES }),
 
             esbuild({
                 minify: IS_PRODUCTION,
                 target: "es2015",
+                minifyIdentifiers: true,
             }),
 
-            inject({ NODE_ENV: "production" })
+            replace({
+                preventAssignment: true,
+                values: {
+                    "process.env.NODE_ENV": JSON.stringify("production")
+                }
+            })
         ]
     }
 ]

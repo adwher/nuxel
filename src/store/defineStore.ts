@@ -1,4 +1,4 @@
-import { reactive, readonly } from "vue"
+import { reactive, readonly } from "@vue/reactivity"
 
 import { State, Store, StoreState } from "./store"
 import { Actions, defineActions } from "../actions/actions"
@@ -20,8 +20,8 @@ export type Metadata<S> = {
 }
 
 export function defineStore<S extends object, A, G>(options: Options<S, A, G>): Store<S, A, G> {
-    if (options.state === undefined) {
-        throw "[nuxel] Initial state was undefined"
+    if (typeof options.state !== "object") {
+        throw "[nuxel] Initial state should be an object"
     }
 
     else {
