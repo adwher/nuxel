@@ -1,4 +1,4 @@
-import { UnwrapRef } from "vue"
+import { UnwrapRef } from "@vue/reactivity"
 import { Action } from "../actions/actions"
 import { Getter } from "../getters/getters"
 import { Suscription, Unsuscribe } from "../plugins/defineSuscriptions"
