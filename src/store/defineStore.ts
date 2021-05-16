@@ -1,22 +1,22 @@
 import { reactive, readonly } from "@vue/reactivity"
 
-import { State, Store, StoreState } from "./store"
+import { Store } from "./store"
 import { Actions, defineActions } from "../actions/actions"
 import { defineGetters, Getters } from "../getters/getters"
 import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
-import { definePlugins, Plugins } from "../plugins/definePlugins"
+import { definePlugins, Plugins, Plugin } from "../plugins/definePlugins"
 
 export type Options<S extends object, A, G> = {
     id: string
     state: S
-    actions?: A | Actions<S>
-    getters?: G | Getters<S>
+    actions?: A & Actions<S>
+    getters?: G & Getters<S>
     plugins?: Plugins<S>
 }
 
-export type Metadata<S> = {
+export type Metadata<S, A> = {
     history: Set<S>
-    suscriptions: Set<Suscription<S>>
+    suscriptions: Set<Suscription<S, A>>
 }
 
 export function defineStore<S extends object, A, G>(options: Options<S, A, G>): Store<S, A, G> {
@@ -26,15 +26,15 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
 
     else {
         const initialState = options.state
-        const state = reactive({ ...initialState })
+        const state = reactive({ ...initialState }) as S
 
-        const metadata: Metadata<State<S>> = reactive({
+        const metadata: Metadata<S, A> = reactive({
             history: new Set(),
             suscriptions: new Set()
         })
 
-        const actions = defineActions(state, options.actions || {}, metadata)
-        const getters = defineGetters(state, options.getters || {})
+        const actions = defineActions<S, A>(state, options.actions, metadata)
+        const getters = defineGetters<S, G>(state, options.getters)
 
         const reset = function () {
             Object.assign(state, initialState)
@@ -49,9 +49,9 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
             Object.assign(state, oldState)
         }
 
-        const suscribe = (suscription: Suscription<S>) => defineSuscription(metadata, suscription)
+        const suscribe = (suscription: Suscription<S, A>) => defineSuscription(metadata, suscription)
 
-        const store = {
+        const store: Store<S, A, G> = {
             id: options.id,
             state: state,
             actions,
@@ -61,11 +61,11 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
             rollback
         }
 
-        definePlugins(store, options.plugins)
+        definePlugins<S>(store as Store<S, unknown, unknown>, options.plugins)
 
         return {
             ...store,
-            state: readonly(state) as StoreState<S>
+            state: readonly(state) as S
         }
     }
 }

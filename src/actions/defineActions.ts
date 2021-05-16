@@ -1,7 +1,7 @@
 import { Action } from "./actions"
-import { Metadata } from "../store/store"
+import { Metadata, StoreActions } from "../store/store"
 
-export function defineActions<S extends object, A>(state: S, actions: A, metadata: Metadata<S>) {
+export function defineActions<S, A>(state: S, actions: A, metadata: Metadata<S, A>): StoreActions<S, A> {
     async function execute<P extends unknown[]>(name: string, action: Action<S, P>, ...args: P) {
         try {
             const old = { ...state }
@@ -11,7 +11,7 @@ export function defineActions<S extends object, A>(state: S, actions: A, metadat
 
             metadata.suscriptions.forEach(async suscription => {
                 await suscription({
-                    trigger: name,
+                    trigger: name as keyof A,
                     metadata: metadata,
                     state: [old, { ...state }]
                 })
@@ -24,9 +24,9 @@ export function defineActions<S extends object, A>(state: S, actions: A, metadat
     }
 
     const entries = Object
-        .entries(actions)
+        .entries(actions || {})
         .map(function ([key, action]) {
-            return [key, (...args: unknown[]) => execute(key, action, ...args)]
+            return [key, (...args: unknown[]) => execute(key, action as Action<S>, ...args)]
         })
 
     return Object.fromEntries(entries)

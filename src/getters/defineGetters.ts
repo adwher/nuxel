@@ -1,8 +1,7 @@
 import { computed, reactive } from "@vue/reactivity"
 import { Getter } from "./getters"
-import { State } from "../store/store"
 
-export function defineGetters<S, G>(state: State<S>, getters: G) {
+export function defineGetters<S, G>(state: S, getters: G) {
     function compute(getter: Getter<S>) {
         return computed(() => getter(state))
     }
