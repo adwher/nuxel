@@ -1,4 +1,4 @@
-export function encryptData(data: object) {
+export function encryptData(data: any) {
     const text = JSON.stringify(data)
     return btoa(text)
 }

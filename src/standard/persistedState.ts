@@ -3,7 +3,7 @@ import { createHashMark, decryptData, encryptData } from "../utils"
 
 export function createPersistence<S extends object>(): Plugin<S> {
     return function (store) {
-        const key = `cached/${store.id}`
+        const key = encryptData(store.id)
         const encrypted = localStorage.getItem(key)
 
         if (encrypted) {

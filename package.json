@@ -1,6 +1,6 @@
 {
   "name": "nuxel",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "State managment for Vue 3",
   "main": "dist/nuxel.cjs.js",
   "module": "dist/nuxel.esm.js",

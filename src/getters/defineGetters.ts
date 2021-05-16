@@ -1,9 +1,10 @@
-import { computed, reactive } from "@vue/reactivity"
+import { computed, reactive, readonly } from "@vue/reactivity"
+import { StoreState } from "../store/store"
 import { Getter } from "./getters"
 
-export function defineGetters<S, G>(state: S, getters: G) {
+export function defineGetters<S extends object, G>(state: S, getters: G) {
     function compute(getter: Getter<S>) {
-        return computed(() => getter(state))
+        return computed(() => getter(readonly(state) as StoreState<S>))
     }
 
     const entries = Object
