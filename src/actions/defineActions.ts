@@ -2,7 +2,7 @@ import { Action } from "./actions"
 import { Metadata, StoreActions } from "../store/store"
 
 export function defineActions<S, A>(state: S, actions: A, metadata: Metadata<S, A>): StoreActions<S, A> {
-    async function execute<P extends unknown[]>(name: string, action: Action<S, P>, ...args: P) {
+    async function execute<P extends unknown[]>(name: any, action: Action<S, P>, ...args: P) {
         try {
             const old = { ...state }
 
@@ -11,7 +11,7 @@ export function defineActions<S, A>(state: S, actions: A, metadata: Metadata<S, 
 
             metadata.suscriptions.forEach(async suscription => {
                 await suscription({
-                    trigger: name as keyof A,
+                    trigger: name,
                     metadata: metadata,
                     state: [old, { ...state }]
                 })

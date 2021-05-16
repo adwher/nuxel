@@ -7,9 +7,9 @@ export function defineGetters<S, G>(state: S, getters: G) {
     }
 
     const entries = Object
-        .entries(getters)
+        .entries(getters || {})
         .map(function ([key, getter]) {
-            return [key, compute(getter)]
+            return [key, compute(getter as Getter<S>)]
         })
 
     return reactive(Object.fromEntries(entries))
