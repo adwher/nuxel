@@ -2,16 +2,14 @@
 
 Nuxel is a state managment library based on [Vue 3](https://v3.vuejs.org) and the Composition API. It serves a centralized stores than you can use in web applications.
 
-> **HANDS UP!** We are under development yet
+## An example
 
-## Documentation
-
-> Not ready yet
+Suppose you're creating a counter app, and your store looks like this:
 
 ```ts
 import { createStore } from "nuxel"
 
-const useStore = createStore({
+export const useCounter = createStore({
     state: {
         counter: 0
     },
@@ -22,8 +20,10 @@ const useStore = createStore({
         }
     }
 })
-
-export default useStore
 ```
 
-Code by [@adwher](https://github.com/adwher)
+And then you can put all the `useCounter` API [provided](https://github.com/adwher/nuxel/wiki/API#usage) by `nuxel`. Read more at the [`wiki`](https://github.com/adwher/nuxel/wiki) section at the repo.
+
+## Feedback
+
+Issues and pull requests are welcome.

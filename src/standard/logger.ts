@@ -19,6 +19,29 @@ function obtainTime() {
     return `${hours}:${minutes}:${seconds}`
 }
 
+/**
+ * Suscribe a event to the store, every mutations will gonna display at the console. Useful to `development` and `debugging` purposes.
+ * 
+ * ```ts
+ * import { createStore, createLogger } from "nuxel"
+ * 
+ * export const useStore = createStore({
+ *     state: {
+ *         counter: 0
+ *     },
+ * 
+ *     actions: {
+ *         increment(state, by: number = 1) {
+ *             state.counter += by
+ *         }
+ *     },
+ * 
+ *     plugins: [
+ *         createLogger()
+ *     ]
+ * })
+ * ```
+ */
 export function createLogger<S>(): Plugin<S> {
     return function (store) {
         store.suscribe(async context => {
