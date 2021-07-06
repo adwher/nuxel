@@ -1,3 +1,5 @@
+import { MD5 } from "object-hash"
+
 export function encryptData(data: any) {
     const text = JSON.stringify(data)
     return btoa(text)
@@ -7,7 +9,7 @@ export function decryptData(data: string) {
     return JSON.parse(atob(data))
 }
 
-export function createHashMark(data: object) {
+export function createHashNotion(data: object) {
     function toArrayNotation(data: object) {
         return Object
             .entries(data)
@@ -21,5 +23,9 @@ export function createHashMark(data: object) {
             .trimEnd()
     }
 
-    return encryptData({ key: toArrayNotation(data) })
+    return createHash({ key: toArrayNotation(data) })
+}
+
+export function createHash(data: object) {
+    return MD5(data)
 }

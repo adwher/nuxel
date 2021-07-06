@@ -4,10 +4,10 @@ import { Store } from "./store"
 import { Actions, defineActions } from "../actions/actions"
 import { defineGetters, Getters } from "../getters/getters"
 import { defineSuscription, Suscription } from "../plugins/defineSuscriptions"
-import { definePlugins, Plugins, Plugin } from "../plugins/definePlugins"
+import { definePlugins, Plugins } from "../plugins/definePlugins"
+import { createHash } from "../utils"
 
 export type Options<S extends object, A, G> = {
-    id: string
     state: S
     actions?: A & Actions<S>
     getters?: G & Getters<S>
@@ -25,8 +25,9 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
     }
 
     else {
-        const initialState = options.state
-        const state = reactive({ ...initialState }) as S
+        const id = createHash(options.state)
+        const initial = options.state
+        const state = reactive({ ...initial }) as S
 
         const metadata: Metadata<S, A> = reactive({
             history: new Set(),
@@ -37,14 +38,14 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
         const getters = defineGetters<S, G>(state, options.getters)
 
         const reset = function () {
-            Object.assign(state, initialState)
+            Object.assign(state, initial)
             metadata.history.clear()
         }
 
         const rollback = function () {
             const oldState = metadata.history.size > 0
                 ? metadata.history[metadata.history.size - 1]
-                : initialState
+                : initial
 
             Object.assign(state, oldState)
         }
@@ -52,13 +53,14 @@ export function defineStore<S extends object, A, G>(options: Options<S, A, G>): 
         const suscribe = (suscription: Suscription<S, A>) => defineSuscription(metadata, suscription)
 
         const store: Store<S, A, G> = {
-            id: options.id,
+            id: id,
             state: state,
-            actions,
-            getters,
-            suscribe,
-            reset,
-            rollback
+            actions: actions,
+            getters: getters,
+
+            suscribe: suscribe,
+            reset: reset,
+            rollback: rollback
         }
 
         definePlugins<S>(store as Store<S, unknown, unknown>, options.plugins)

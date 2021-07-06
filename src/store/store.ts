@@ -16,7 +16,6 @@ export type StoreGetters<S, G> = {
 
 export type Store<S, A, G> = {
     id: string
-
     state: StoreState<S>
     actions: StoreActions<S, A>
     getters: StoreGetters<S, G>

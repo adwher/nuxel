@@ -45,7 +45,7 @@ function obtainTime() {
 export function createLogger<S>(): Plugin<S> {
     return function (store) {
         store.suscribe(async context => {
-            console.log(`[${store.id} ${obtainTime()}] %c${context.trigger}`, "font-weight: bold")
+            console.log(`[${obtainTime()}] %c${context.trigger}`, "font-weight: bold")
         })
     }
 }

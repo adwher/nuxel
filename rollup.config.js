@@ -1,6 +1,7 @@
 import esbuild from "rollup-plugin-esbuild"
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
+import declarate from "rollup-plugin-generate-declarations"
 
 const EXTERNAL_DEPENDENCIES = ["@vue/reactivity"]
 const IS_PRODUCTION = !process.env.ROLLUP_WATCH
@@ -20,7 +21,9 @@ export default [
             esbuild({
                 minify: IS_PRODUCTION,
                 target: "es2015",
-            })
+            }),
+
+            declarate()
         ]
     },
 

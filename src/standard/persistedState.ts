@@ -1,5 +1,5 @@
 import { Plugin } from "../plugins/definePlugins"
-import { createHashMark, decryptData, encryptData } from "../utils"
+import { createHashNotion, decryptData, encryptData } from "../utils"
 
 /**
  * Create a `cache` version of the store and before usage load the `cache` at state. Useful to load not dynamic data as sessions, tokens, counters and some stuff else.
@@ -32,8 +32,8 @@ export function createPersistence<S extends object>(): Plugin<S> {
         if (encrypted) {
             const json = decryptData(encrypted)
 
-            const cachedHash = createHashMark(json)
-            const stateHash = createHashMark(store.state)
+            const cachedHash = createHashNotion(json)
+            const stateHash = createHashNotion(store.state)
 
             if (cachedHash === stateHash) {
                 Object.assign(store.state, json)
