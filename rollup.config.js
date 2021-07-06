@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
 import declarate from "rollup-plugin-generate-declarations"
 
-const EXTERNAL_DEPENDENCIES = ["@vue/reactivity"]
+const EXTERNAL_DEPENDENCIES = ["@vue/reactivity", "object-hash"]
 const IS_PRODUCTION = !process.env.ROLLUP_WATCH
 
 export default [
@@ -23,7 +23,7 @@ export default [
                 target: "es2015",
             }),
 
-            declarate()
+            IS_PRODUCTION && declarate()
         ]
     },
 
@@ -42,33 +42,6 @@ export default [
                 minify: IS_PRODUCTION,
                 target: "es2015",
             }),
-        ]
-    },
-
-    {
-        input: "src/nuxel.ts",
-    
-        output: {
-            name: "nuxel",
-            file: "./dist/nuxel.iife.js",
-            format: "iife"
-        },
-    
-        plugins: [
-            resolve({ browser: true, dedupe: EXTERNAL_DEPENDENCIES }),
-
-            esbuild({
-                minify: IS_PRODUCTION,
-                target: "es2015",
-                minifyIdentifiers: true,
-            }),
-
-            replace({
-                preventAssignment: true,
-                values: {
-                    "process.env.NODE_ENV": JSON.stringify("production")
-                }
-            })
         ]
     }
 ]

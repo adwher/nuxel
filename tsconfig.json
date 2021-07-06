@@ -6,10 +6,8 @@
         "rootDir": "./src",
         "outDir": "./dist",
         "declaration": true,
-        "declarationDir": "./dist/types",
         "esModuleInterop": true,
         "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
         "allowJs": true
     },
     "include": ["src/**/*.ts", "src/**/*.js"]

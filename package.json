@@ -10,7 +10,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest && tsc --emitDeclarationOnly"
+    "test": "jest && tsc --noEmit"
   },
   "repository": {
     "type": "git",
