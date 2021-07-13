@@ -29,8 +29,6 @@ export { createPersistence } from "./standard/persistedState"
  * })
  * ```
 */
-export function createStore<S extends object, A, G>(options: Options<S, A, G>): () => Store<S, A, G> {
-    const store = defineStore(options)
-
-    return () => store
+export function createStore<S extends object, A, G>(options: Options<S, A, G>): Store<S, A, G> {
+    return defineStore(options)
 }

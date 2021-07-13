@@ -45,7 +45,23 @@ function obtainTime() {
 export function createLogger<S>(): Plugin<S> {
     return function (store) {
         store.suscribe(async context => {
-            console.log(`[${obtainTime()}] %c${context.trigger}`, "font-weight: bold")
+            console.groupCollapsed(
+                `%c[logger] ${obtainTime()}`,
+                `
+                    font-weight: bold;
+                    background-color: #C7D2FE;
+                    color: #4338CA;
+                    padding: 0.15rem 0.25rem;
+                    border-radius: 0.15rem;
+                `
+            )
+        
+            console.log(`id %c${store.id}`, "font-weight: bold;")
+            console.log(`action %c${context.trigger}`, "font-weight: bold;")
+            console.log("state", context.state[1])
+            console.log("history", context.metadata.history)
+            
+            console.groupEnd()
         })
     }
 }

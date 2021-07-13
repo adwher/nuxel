@@ -6,7 +6,7 @@ export function defineActions<S, A>(state: S, actions: A, metadata: Metadata<S, 
         try {
             const old = { ...state }
 
-            metadata.history.add(old)
+            metadata.history.push(old)
             await action(state, ...args)
 
             metadata.suscriptions.forEach(async suscription => {
