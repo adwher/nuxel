@@ -14,24 +14,24 @@ describe("Getters", function() {
         },
 
         getters: {
-            counter(state) {
+            count(state) {
                 return "Counter: " + state.counter
             }
         }
     })
 
-    const { getters, actions } = useStore()
+    const { count, increment } = useStore()
 
     test("expect getters are defined", function () {
-        expect(getters.counter).toBeDefined()
+        expect(count.value).toBeDefined()
     })
 
     test("increment", function (done) {
-        actions.increment(1)
-        expect(getters.counter).toBe("Counter: 1")
+        increment(1)
+        expect(count.value).toBe("Counter: 1")
 
-        actions.increment(10)
-        expect(getters.counter).toBe("Counter: 11")
+        increment(10)
+        expect(count.value).toBe("Counter: 11")
 
         done()
     })

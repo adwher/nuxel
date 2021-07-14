@@ -8,9 +8,9 @@ describe("State", function() {
         }
     })
 
-    const { state } = useStore()
+    const { counter } = useStore()
 
     test("got the initial state", function () {
-        expect(state.counter).toBe(0)
+        expect(counter.value).toBe(0)
     })
 })

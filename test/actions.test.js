@@ -18,30 +18,25 @@ describe("Actions", function() {
         }
     })
 
-    const { state, actions, reset } = useStore()
+    const { counter, increment, decrement } = useStore()
 
     test("expect every action", function () {
-        expect(actions.increment).toBeInstanceOf(Function)
-        expect(actions.decrement).toBeInstanceOf(Function)
+        expect(increment).toBeInstanceOf(Function)
+        expect(decrement).toBeInstanceOf(Function)
     })
 
     test("increment by 1", function () {
-        actions.increment(1)
-        expect(state.counter).toBe(1)
+        increment(1)
+        expect(counter.value).toBe(1)
     })
 
     test("increment by 10", function () {
-        actions.increment(10)
-        expect(state.counter).toBe(11)
+        increment(10)
+        expect(counter.value).toBe(11)
     })
 
     test("decrement by 1", function() {
-        actions.decrement(1)
-        expect(state.counter).toBe(10)
-    })
-
-    test("reset the state", function() {
-        reset()
-        expect(state.counter).toBe(0)
+        decrement(1)
+        expect(counter.value).toBe(10)
     })
 })
