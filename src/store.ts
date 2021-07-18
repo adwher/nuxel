@@ -16,8 +16,8 @@ interface Options<S, A, G> {
 }
 
 export function createStore<S extends object, A, G>(options: Options<S, A, G>): StoreHook<S, A, G> {
-    if (typeof options.state !== "object") {
-        throw new Error("State must be an object")
+    if (typeof options?.state !== "object") {
+        throw new TypeError("State must be an object")
     }
 
     const id = createHash(options.state)

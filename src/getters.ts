@@ -1,7 +1,7 @@
 import { computed, ComputedRef, UnwrapNestedRefs } from "@vue/reactivity"
 import { Store } from "./nuxel"
 
-export type Getter<S, R = any> = (state: UnwrapNestedRefs<S>) => R
+export type Getter<S, R = unknown> = (state: UnwrapNestedRefs<S>) => R
 
 export interface OptionGetters<S> {
     [name: string]: Getter<S>;
@@ -18,7 +18,7 @@ export function defineGetters<S, G>(store: Store<S>, getters: G): StoreGetters<S
             const getter = entry[1] as Getter<S>
             const name = entry[0]
 
-            return [name, computed(getter(store.state))]
+            return [name, computed(() => getter(store.state))]
         })
 
     return Object.fromEntries(entries)

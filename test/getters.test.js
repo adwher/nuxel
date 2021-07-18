@@ -24,9 +24,10 @@ describe("Getters", function() {
 
     test("expect getters are defined", function () {
         expect(count.value).toBeDefined()
+        expect(typeof count.value).toBe("string")
     })
 
-    test("increment", function (done) {
+    test("increment using params", function (done) {
         increment(1)
         expect(count.value).toBe("Counter: 1")
 

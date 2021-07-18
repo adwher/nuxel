@@ -1,12 +1,11 @@
-import { toRaw } from "@vue/reactivity";
-import { Store, StoreContext } from "./nuxel"
+import { Store } from "./nuxel"
 
 type ActionParams = unknown[]
 
 export type Action<S, P extends ActionParams> = (state: S, ...params: P) => Promise<void> | void
 
 export interface OptionActions<S> {
-    [name: string]: Action<S, any[]>;
+    [name: string]: Action<S, unknown[]>;
 }
 
 export type StoreActions<S, A> = {

@@ -4,7 +4,7 @@ import declarate from "rollup-plugin-generate-declarations"
 import pkg from "./package.json"
 
 const EXTERNAL_DEPENDENCIES = ["@vue/reactivity", "lodash"]
-const IS_PRODUCTION = !process.env.ROLLUP_WATCH
+const IS_PRODUCTION = !(process.env.ROLLUP_WATCH || process.env.CI)
 
 export default {
     input: "src/nuxel.ts",
