@@ -2,7 +2,7 @@ name: Publish
 
 on:
   release:
-    - created
+    types: [created]
 
 jobs:
   npm:
