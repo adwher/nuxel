@@ -1,34 +1,39 @@
-import { defineStore, Options, Store } from "./store/store"
+import { UnwrapNestedRefs, DeepReadonly, Ref } from "@vue/reactivity"
+import { StoreActions } from "./actions"
+import { StoreGetters } from "./getters"
+import { Suscription, Unsuscribe } from "./suscriptions"
 
-export { createLogger } from "./standard/logger"
-export { createPersistence } from "./standard/persistedState"
+// CONTEXT
 
-/**
- * To create a new instance of a store, with their `state`, `actions` and `getters`.
- * 
- * ```ts
- * import { createStore } from "nuxel"
- * 
- * export const useCounter = createStore({
- *     // initial state
- *     state: {
- *         counter: 0
- *     },
- * 
- *     actions: {
- *         increase(state, by: number = 1) {
- *             state.counter += by
- *         }
- *     },
- * 
- *     getters: {
- *         count(state) {
- *             return `The count is: ${state.counter}`
- *         }
- *     }
- * })
- * ```
-*/
-export function createStore<S extends object, A, G>(options: Options<S, A, G>): Store<S, A, G> {
-    return defineStore(options)
+export interface StoreContext<S> {
+    trigger: string;
+    timestamp: number;
+    state: {
+        old: S;
+        newest: S;
+    };
 }
+
+// STORE
+
+export type StoreState<S> = {
+    [K in keyof S]: DeepReadonly<Ref<S[K]>>;
+}
+
+export interface Store<S> {
+    id: string;
+    state: UnwrapNestedRefs<S>;
+    history: StoreContext<S>[];
+    suscriptions: Set<Suscription<S>>;
+
+    suscribe(callback: Suscription<S>): Unsuscribe;
+    reset(): void;
+}
+
+export type StoreHook<S, A, G> = () => StoreState<S> & StoreActions<S, A> & StoreGetters<S, G>
+
+// EXPORTS
+
+export { createStore } from "./store"
+export { createLogger } from "./standard/logger"
+export { createPersistence } from "./standard/persistence"

@@ -6,7 +6,7 @@
   "module": "dist/nuxel.esm.js",
   "unpkg": "dist/nuxel.esm.js",
   "jsdelivr": "dist/nuxel.esm.js",
-  "types": "types/nuxel.d.ts",
+  "types": "dist/types/nuxel.d.ts",
   "sideEffect": [
     "dist/nuxel.esm.js",
     "dist/nuxel.cjs.js"

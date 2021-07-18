@@ -1,23 +1,5 @@
-import { Plugin } from "../plugins/definePlugins"
-
-function formatNumber(value: number) {
-    const formatter = new Intl.NumberFormat("en-US", {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-    })
-
-    return formatter.format(value)
-}
-
-function obtainTime() {
-    const date = new Date()
-
-    const hours = formatNumber(date.getHours())
-    const minutes = formatNumber(date.getMinutes())
-    const seconds = formatNumber(date.getSeconds())
-
-    return `${hours}:${minutes}:${seconds}`
-}
+import { Plugin } from "../plugins"
+import { obtainTime } from "../util"
 
 /**
  * Suscribe a event to the store, every mutations will gonna display at the console. Useful to `development` and `debugging` purposes.
@@ -57,9 +39,27 @@ export function createLogger<S>(): Plugin<S> {
             )
         
             console.log(`id %c${store.id}`, "font-weight: bold;")
+            console.log("state", context.state.newest)
             console.log(`action %c${context.trigger}`, "font-weight: bold;")
-            console.log("state", context.state[1])
-            console.log("history", context.metadata.history)
+
+            console.groupCollapsed("%ctimeline", "font-weight: normal;")
+
+            context.history
+                .reverse()
+                .forEach((action) => {
+                    console.groupCollapsed(
+                        `%c[${action.trigger}] %c${obtainTime(action.timestamp)}`,
+                        `font-weight: bold;`,
+                        `font-weight: normal;`,
+                    )
+                
+                    console.log("old", action.state.old)
+                    console.log("newest", action.state.newest)
+
+                    console.groupEnd()
+                })
+
+            console.groupEnd()
             
             console.groupEnd()
         })

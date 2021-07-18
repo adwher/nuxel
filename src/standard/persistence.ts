@@ -1,8 +1,20 @@
-import { Plugin } from "../plugins/definePlugins"
-import { createHashNotion, decryptData, encryptData } from "../utils"
+import { Plugin } from "../plugins"
+import { decryptData, encryptData } from "../util"
 
 interface PersistenceOptions {
     verbose?: boolean
+}
+
+export function generateNotion(data: object) {
+    return Object
+        .entries(data)
+        .reduce<string>(
+            function (text, [key]) {
+                return text += `${key} `
+            },
+
+            ""
+        )
 }
 
 /**
@@ -28,16 +40,16 @@ interface PersistenceOptions {
  * })
  * ```
  */
+
 export function createPersistence<S extends object>(options: PersistenceOptions = {}): Plugin<S> {
     return function (store) {
-        const key = encryptData(store.id)
-        const encrypted = localStorage.getItem(key)
+        const encrypted = localStorage.getItem(store.id)
 
         if (encrypted) {
             const json = decryptData(encrypted)
 
-            const cachedHash = createHashNotion(json)
-            const stateHash = createHashNotion(store.state)
+            const cachedHash = generateNotion(json)
+            const stateHash = generateNotion(store.state)
 
             if (cachedHash === stateHash) {
                 Object.assign(store.state, json)
@@ -61,11 +73,11 @@ export function createPersistence<S extends object>(options: PersistenceOptions 
                 }
             }
 
-            else localStorage.removeItem(key)
+            else localStorage.removeItem(store.id)
         }
 
-        store.suscribe(() =>
-            localStorage.setItem(key, encryptData({ ...store.state }))
-        )
+        store.suscribe(() => {
+            localStorage.setItem(store.id, encryptData(store.state))
+        })
     }
 }
