@@ -26,7 +26,7 @@ export default {
     plugins: [
         esbuild({
             minify: IS_PRODUCTION,
-            target: "es2015",
+            target: "es2018",
         }),
 
         declarate(),

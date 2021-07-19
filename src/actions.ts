@@ -2,10 +2,10 @@ import { Store } from "./nuxel"
 
 type ActionParams = unknown[]
 
-export type Action<S, P extends ActionParams> = (state: S, ...params: P) => Promise<void> | void
+export type Action<S, P extends unknown[] = any[]> = (state: S, ...params: P) => Promise<void> | void
 
 export interface OptionActions<S> {
-    [name: string]: Action<S, unknown[]>;
+    [name: string]: Action<S>;
 }
 
 export type StoreActions<S, A> = {

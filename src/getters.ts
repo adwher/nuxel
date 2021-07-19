@@ -8,7 +8,7 @@ export interface OptionGetters<S> {
 }
 
 export type StoreGetters<S, G> = {
-    [K in keyof G]: G[K] extends Getter<S, infer R> ? ComputedRef<R> : unknown;
+    [K in keyof G]: G[K] extends Getter<S, infer R> ? ComputedRef<R> : never;
 }
 
 export function defineGetters<S, G>(store: Store<S>, getters: G): StoreGetters<S, G> {
